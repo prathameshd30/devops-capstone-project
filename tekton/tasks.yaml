@@ -67,6 +67,7 @@ spec:
       description: Database connection string
       type: string
       default: "sqlite:///test.db"
+    - name: build-image
   steps:
     - name: nosetests
       image: python:3.9-slim
@@ -84,16 +85,4 @@ spec:
 
         echo "***** Running nosetests with: $(params.args)"
         nosetests $(params.args)
-    - name: tests
-      workspaces:
-        - name: source
-          workspace: pipeline-workspace
-      taskRef:
-        name: nose
-      params:
-      - name: database_uri
-        value: "sqlite:///test.db"
-      - name: args
-        value: "-v --with-spec --spec-color"
-      runAfter:
-        - clone
+    
